@@ -16,25 +16,30 @@ const sizeHeight = 25;
 let apple, snake, boxSize;
 let isPlaying = false,
 	isEnd = false,
-	isWallEnabled = true,
+	isWallEnabled = false,
 	direction = 0; // 0: left, 1: up, 2: right, 3: down
 
-leftButton.addEventListener("click", () => {
-	if (direction !== 2) direction = 0;
-});
-rightButton.addEventListener("click", () => {
-	if (direction !== 0) direction = 2;
-});
-upButton.addEventListener("click", () => {
-	if (direction !== 3) direction = 1;
-});
-downButton.addEventListener("click", () => {
-	if (direction !== 1) direction = 3;
-});
-pauseButton.addEventListener("click", pause);
-startButton.addEventListener("click", start);
-resetButton.addEventListener("click", reset);
-wallButton.addEventListener("click", wall);
+	function setSnake() {
+	snake = [[Math.round(sizeWidth / 2), Math.round(sizeHeight / 2)]];
+}
+
+function setApple() {
+	if (sizeWidth * sizeHeight <= snake.length) return win();
+
+	apple = {
+		x: Math.floor(Math.random() * sizeWidth) + 1,
+		y: Math.floor(Math.random() * sizeHeight) + 1,
+	};
+
+	for (const [bodyX, bodyY] of snake) {
+		if (apple.x === bodyX && apple.y === bodyY) return setApple();
+	}
+}
+
+function init() {
+	setSnake();
+	setApple();
+}
 
 function wall() {
 	isWallEnabled = !isWallEnabled;
@@ -74,26 +79,8 @@ function lose() {
 	end();
 }
 
-function setSnake() {
-	snake = [[Math.round(sizeWidth / 2), Math.round(sizeHeight / 2)]];
-}
-
-function init() {
-	setSnake();
-	setApple();
-}
-
-function setApple() {
-	if (sizeWidth * sizeHeight <= snake.length) return win();
-
-	apple = {
-		x: Math.floor(Math.random() * sizeWidth) + 1,
-		y: Math.floor(Math.random() * sizeHeight) + 1,
-	};
-
-	for (const [bodyX, bodyY] of snake) {
-		if (apple.x === bodyX && apple.y === bodyY) return setApple();
-	}
+function clock() {
+	setInterval(update, 500);
 }
 
 function setup() {
@@ -102,9 +89,67 @@ function setup() {
 	init();
 }
 
-function clock() {
-	setInterval(update, 500);
+function update() {
+	if (isPlaying)  {
+		let [x, y] = snake[0];
+
+		switch (direction) {
+			case 0:
+				if (--x < 1) {
+					if (isWallEnabled) return lose();
+					else x = sizeWidth;
+				}
+				break;
+			case 1:
+				if (--y < 1) {
+					if (isWallEnabled) return lose();
+					else y = sizeHeight;
+				}
+				break;
+			case 2:
+				if (++x > sizeWidth) {
+					if (isWallEnabled) return lose();
+					else x = 1;
+				}
+				break;
+			case 3:
+				if (++y > sizeHeight) {
+					if (isWallEnabled) return lose();
+					else y = 1;
+				}
+				break;
+		}
+
+		snake.splice(0, 0, [x, y]);
+
+		if (snake[0][0] !== apple.x || snake[0][1] !== apple.y) snake.pop();
+		else setApple();
+
+		for (const [bodyX, bodyY] of snake.slice(1, snake.length)) {
+			if (bodyX === x && bodyY === y) return lose();
+		}
+	}
+
+	render();
 }
+
+
+leftButton.addEventListener("click", () => {
+	if (direction !== 2) direction = 0;
+});
+rightButton.addEventListener("click", () => {
+	if (direction !== 0) direction = 2;
+});
+upButton.addEventListener("click", () => {
+	if (direction !== 3) direction = 1;
+});
+downButton.addEventListener("click", () => {
+	if (direction !== 1) direction = 3;
+});
+pauseButton.addEventListener("click", pause);
+startButton.addEventListener("click", start);
+resetButton.addEventListener("click", reset);
+wallButton.addEventListener("click", wall);
 
 function resize() {
 	const winWidth = window.innerWidth;
@@ -123,40 +168,10 @@ function resize() {
 	}
 }
 
-function update() {
-	if (isPlaying)  {
-		let [x, y] = snake[0];
-
-		switch (direction) {
-			case 0:
-				if (--x < 1) x = sizeWidth;
-				break;
-			case 1:
-				if (--y < 1) y = sizeHeight;
-				break;
-			case 2:
-				if (++x > sizeWidth) x = 1;
-				break;
-			case 3:
-				if (++y > sizeHeight) y = 1;
-				break;
-		}
-
-		snake.splice(0, 0, [x, y]);
-
-		if (snake[0][0] !== apple.x || snake[0][1] !== apple.y) snake.pop();
-		else setApple();
-
-		for (const [bodyX, bodyY] of snake.slice(1, snake.length)) {
-			if (bodyX === x && bodyY === y) return lose();
-		}
-	}
-
-	render();
-}
+window.addEventListener("resize", resize);
 
 function render() {
-	ctx.fillStyle = isWallEnabled ? "black" : "yellow";
+	ctx.fillStyle = isWallEnabled ? "yellow" : "black";
 
 	ctx.fillRect(0, 0, canv.width, canv.height);
 
@@ -186,5 +201,4 @@ function render() {
 	);
 }
 
-window.addEventListener("resize", resize);
 window.addEventListener("load", setup);
