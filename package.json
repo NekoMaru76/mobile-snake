@@ -4,17 +4,12 @@
 	"description": "",
 	"main": "script.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
 		"lint": "npx prettier -w --use-tabs --tab-width 4 .",
-		"start": "npx serve public",
-		"build": "node esbuild.js"
+		"start": "npx serve public"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
-	"dependencies": {
-		"@chialab/esbuild-plugin-html": "^0.18.0"
-	},
 	"devDependencies": {
 		"esbuild": "^0.20.0",
 		"prettier": "^3.2.4",

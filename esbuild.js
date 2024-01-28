@@ -1,13 +1,14 @@
 (async () => {
     const esbuild = await import("esbuild");
-    const { default: htmlPlugin } = await import("@chialab/esbuild-plugin-html");
+    const { html } = await import("@esbuilder/html");
 
     await esbuild.build({
         minify: true,
-        outfile: "dist/index.html",
+        outdir: "dist/",
         entryPoints: ["src/index.html"],
+        bundle: true,
         plugins: [
-            htmlPlugin(),
+            html(),
         ],
     });
 })();
