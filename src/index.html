@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+	<head>
+		<link rel="stylesheet" href="/style.css" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/eruda/3.0.1/eruda.min.js"></script>
+		<script>
+			eruda.init();
+		</script>
+	</head>
+	<body>
+		<div id="canvas-container">
+			<canvas id="canvas"></canvas>
+		</div>
+		<div id="movement-container">
+			<button id="left" class="movement-button button button-sizing">
+				Left
+			</button>
+			<div id="movement-vertical-container">
+				<button id="up" class="movement-button button button-sizing">
+					Up
+				</button>
+				<button id="down" class="movement-button button button-sizing">
+					Down
+				</button>
+			</div>
+			<button id="right" class="movement-button button button-sizing">
+				Right
+			</button>
+			<button id="start" class="control-button button button-sizing">
+				Start
+			</button>
+			<button id="pause" class="control-button button button-sizing">
+				Pause
+			</button>
+			<button id="reset" class="control-button button button-sizing">
+				Reset
+			</button>
+			<button id="wall" class="control-button button button-sizing">
+				Wall
+			</button>
+		</div>
+		<script src="/script.js"></script>
+	</body>
+</html>

@@ -5,7 +5,7 @@ body {
 	height: 100%;
 }
 
-#container {
+#canvas-container {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -26,8 +26,6 @@ body {
 	margin-left: auto;
 	margin-right: auto;
 	height: 100%;
-	/*display: flex;
-flex-direction: column;*/
 	position: relative;
 }
 
@@ -45,9 +43,6 @@ flex-direction: column;*/
 	margin-right: 0;
 }
 
-#top {
-}
-
 #down {
 	position: absolute;
 	bottom: 0;
@@ -56,43 +51,52 @@ flex-direction: column;*/
 
 .movement-button {
 	position: relative;
-	width: 15vw;
-	height: 15vw;
-	font-size: 5vw;
-	opacity: 0.8;
-	background-color: grey;
-	color: white;
 	display: block;
 }
 
-/*#up {
-margin-left: auto;
-margin-right: auto;
-top: 0:
-bottom: 0;
+.button {
+	opacity: 0.8;
+	background-color: grey;
+	color: white;
 }
 
-#down {
-margin-left: auto;
-margin-right: auto;
-margin-top: auto:
-bottom: 0;
+@media only screen and (max-width: 600px) {
+	.button-sizing {
+		width: 15vw;
+		height: 15vw;
+		font-size: 5vw;
+	}
 }
 
-#left {
-left: 0;
-margin-right: auto;
-margin-top: auto:
-margin-bottom: auto;
+@media only screen and (min-width: 601px) {
+	.button-sizing {
+		width: 5vw;
+		height: 5vw;
+		font-size: 1vw;
+	}
 }
-
-#right {
-margin-left: auto;
-right: 0;
-margin-top: auto:
-margin-bottom: auto;
-}*/
 
 #canvas {
 	position: relative;
+}
+
+.control-button {
+	position: absolute;
+}
+
+#start {
+	top: auto;
+	bottom: 0;
+}
+
+#reset {
+	top: auto;
+	bottom: 0;
+	left: auto;
+	right: 0;
+}
+
+#wall {
+	left: auto;
+	right: 0;
 }
