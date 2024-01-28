@@ -1,9 +1,6 @@
 const canv = document.querySelector("canvas");
 const ctx = canv.getContext("2d");
 
-const sizeWidth = 25;
-const sizeHeight = 25;
-
 const leftButton = document.getElementById("left");
 const rightButton = document.getElementById("right");
 const upButton = document.getElementById("up");
@@ -12,6 +9,9 @@ const startButton = document.getElementById("start");
 const pauseButton = document.getElementById("pause");
 const resetButton = document.getElementById("reset");
 const wallButton = document.getElementById("wall");
+
+const sizeWidth = 25;
+const sizeHeight = 25;
 
 let apple, snake, boxSize;
 let isPlaying = false,
@@ -40,46 +40,20 @@ function wall() {
 	isWallEnabled = !isWallEnabled;
 }
 
-function resize() {
-	const winWidth = window.innerWidth;
-	const winHeight = window.innerHeight;
-
-	if (winWidth < winHeight) {
-		boxSize = Math.floor(winWidth / sizeWidth);
-
-		canv.width = winWidth;
-		canv.height = boxSize * sizeHeight;
-	} else {
-		boxSize = Math.floor(winHeight / sizeHeight);
-
-		canv.height = winHeight;
-		canv.width = boxSize * sizeWidth;
-	}
-}
-
-function setSnake() {
-	snake = [[Math.round(sizeWidth / 2), Math.round(sizeHeight / 2)]];
-}
-
-function init() {
-	setSnake();
-	setApple();
-}
-
 function pause() {
 	isPlaying = false;
 	isEnd = false;
 }
 
 function start() {
-	if (isEnd) main();
+	if (isEnd) init();
 
 	isPlaying = true;
 	isEnd = false;
 }
 
 function reset() {
-	main();
+	init();
 
 	isPlaying = false;
 	isEnd = false;
@@ -98,6 +72,15 @@ function win() {
 function lose() {
 	alert("You lose!");
 	end();
+}
+
+function setSnake() {
+	snake = [[Math.round(sizeWidth / 2), Math.round(sizeHeight / 2)]];
+}
+
+function init() {
+	setSnake();
+	setApple();
 }
 
 function setApple() {
@@ -123,8 +106,21 @@ function clock() {
 	setInterval(update, 500);
 }
 
-function main() {
-	init();
+function resize() {
+	const winWidth = window.innerWidth;
+	const winHeight = window.innerHeight;
+
+	if (winWidth < winHeight) {
+		boxSize = Math.floor(winWidth / sizeWidth);
+
+		canv.width = winWidth;
+		canv.height = boxSize * sizeHeight;
+	} else {
+		boxSize = Math.floor(winHeight / sizeHeight);
+
+		canv.height = winHeight;
+		canv.width = boxSize * sizeWidth;
+	}
 }
 
 function update() {

@@ -5,7 +5,7 @@
 	"main": "script.js",
 	"scripts": {
 		"lint": "npx prettier -w --use-tabs --tab-width 4 .",
-		"start": "npx serve public"
+		"start": "npx serve src"
 	},
 	"keywords": [],
 	"author": "",
